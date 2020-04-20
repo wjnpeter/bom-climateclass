@@ -1,0 +1,41 @@
+{
+  "name": "bom-climateclass",
+  "version": "1.0.0",
+  "description": "These climate classification module return three different methods of classifying the climate of Australia based on three different classification schemes - temperature/humidity, vegetation (Köppen) and seasonal rainfall.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha index.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wjnpeter/bom-climateclass.git"
+  },
+  "keywords": [
+    "bom",
+    "australia",
+    "climate",
+    "zone",
+    "köppen",
+    "ASCII",
+    "grided",
+    "map",
+    "rainfall",
+    "temperature",
+    "humidity"
+  ],
+  "author": "wjnpeter",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wjnpeter/bom-climateclass/issues"
+  },
+  "homepage": "https://github.com/wjnpeter/bom-climateclass#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "fs-extra": "^9.0.0",
+    "unzipper": "^0.10.10",
+    "validate": "^5.1.0"
+  },
+  "devDependencies": {
+    "mocha": "^7.1.1"
+  }
+}
