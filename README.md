@@ -4,6 +4,8 @@ This node module provide api to get climate zone in Australia, as well as rainfa
 
 It basically provide same function as [Climate classification maps](http://www.bom.gov.au/jsp/ncc/climate_averages/climate-classifications/index.jsp)
 
+[About climate classification maps](http://www.bom.gov.au/jsp/ncc/climate_averages/climate-classifications/IDCclimclasgrids.jsp)
+
 
 ## Installation
 ```
@@ -13,7 +15,7 @@ npm install bom-climateclass --save
 
 ## Usage
 ```
-const { getClimateclass } = require('./index')
+const { getClimateclass } = require('bom-climateclass')
 
 const params = {
   type: 'koppenmajor',

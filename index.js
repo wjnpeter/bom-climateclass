@@ -78,12 +78,16 @@ async function getClimateclass(params, cb) {
 
   fse.rmdirSync(dataDir, { recursive: true })
 
-  if (cb) cb(null, product.gridCode[target.result])
-  return product.gridCode[target.result]
+  const ret = {
+    code: target.result,
+    descript: product.gridCode[target.result]
+  }
+  if (cb) cb(null, ret)
+  return ret
 }
 
 function makeTarget(lat, lon, txtHeader) {
-  if (lat < txtHeader.yllcorner || lon < txtHeader.xllcorner) {
+  if (lat < Number(txtHeader.yllcorner) || lon < Number(txtHeader.xllcorner)) {
     console.log('lat/lon not valid')
     return null
   }
