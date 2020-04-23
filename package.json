@@ -1,6 +1,6 @@
 {
   "name": "bom-climateclass",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "These climate classification module return three different methods of classifying the climate of Australia based on three different classification schemes - temperature/humidity, vegetation (Köppen) and seasonal rainfall.",
   "main": "index.js",
   "scripts": {
