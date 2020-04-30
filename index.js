@@ -6,6 +6,7 @@ const { products } = require('./src/products')
 const fse = require('fs-extra')
 const readline = require('readline');
 const path = require('path')
+const os = require('os')
 
 /**
  * Txt Header:
@@ -32,8 +33,7 @@ async function getClimateclass(params, cb) {
 
   const zipFiles = res.data.pipe(unzipper.Parse({ forceStream: true }));
 
-  const dataDir = './data'
-  fse.ensureDirSync(dataDir)
+  const dataDir = fse.mkdtempSync(path.join(os.tmpdir(), 'bom-climateclass-'))
 
   let gridFile
   for await (const entry of zipFiles) {
