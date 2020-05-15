@@ -29,9 +29,13 @@ async function getClimateclass(params, cb) {
     return Promise.reject('Invalid type')
   }
 
-  const res = await axios.get(url + product.file, { responseType: 'stream' })
-
-  const zipFiles = res.data.pipe(unzipper.Parse({ forceStream: true }));
+  let zipFiles = null
+  try {
+    const res = await axios.get(url + product.file, { responseType: 'stream' })
+    zipFiles = res.data.pipe(unzipper.Parse({ forceStream: true }));
+  } finally {
+    zipFiles = fse.createReadStream('./src/data' + product.file).pipe(unzipper.Parse())
+  }
 
   const dataDir = fse.mkdtempSync(path.join(os.tmpdir(), 'bom-climateclass-'))
 

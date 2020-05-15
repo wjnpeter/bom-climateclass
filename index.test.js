@@ -15,7 +15,7 @@ describe('getClimateclass', function () {
     })
   })
 
-  it('Climate zone - rainfallmajor', function (done) {
+  it('Climate zone - koppenmajor', function (done) {
     const params = {
       type: 'koppenmajor',
       lat: -42.373875,
