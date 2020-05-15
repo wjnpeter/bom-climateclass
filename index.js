@@ -33,7 +33,7 @@ async function getClimateclass(params, cb) {
   try {
     const res = await axios.get(url + product.file, { responseType: 'stream' })
     zipFiles = res.data.pipe(unzipper.Parse({ forceStream: true }));
-  } finally {
+  } catch {
     zipFiles = fse.createReadStream('./src/data' + product.file).pipe(unzipper.Parse())
   }
 
