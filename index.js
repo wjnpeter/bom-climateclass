@@ -29,24 +29,22 @@ async function getClimateclass(params, cb) {
     return Promise.reject('Invalid type')
   }
 
-  let zipFiles = null
-  try {
-    const res = await axios.get(url + product.file, { responseType: 'stream' })
-    zipFiles = res.data.pipe(unzipper.Parse({ forceStream: true }));
-  } catch {
-    zipFiles = fse.createReadStream('./src/data' + product.file).pipe(unzipper.Parse())
-  }
+  const res = await axios.get(
+    url + product.file,
+    {
+      responseType: 'arraybuffer',
+      maxContentLength: 100000,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
+      }
+    }
+  )
+  const directory = await unzipper.Open.buffer(res.data)
+  const file = directory.files.find((file) => !file.path.includes('readme'));
 
   const dataDir = fse.mkdtempSync(path.join(os.tmpdir(), 'bom-climateclass-'))
-
-  let gridFile
-  for await (const entry of zipFiles) {
-    const fileName = entry.path;
-    if (!fileName.includes('readme')) {
-      gridFile = path.join(dataDir, fileName)
-      entry.pipe(fse.createWriteStream(gridFile))
-    } else entry.autodrain()
-  }
+  let gridFile = path.join(dataDir, file.path)
+  await writeFileToTmpDir(file, gridFile);
 
   const rl = readline.createInterface({
     input: fse.createReadStream(gridFile),
@@ -81,7 +79,6 @@ async function getClimateclass(params, cb) {
   }
 
   fse.rmdirSync(dataDir, { recursive: true })
-
   const ret = {
     code: target.result,
     descript: product.gridCode[target.result]
@@ -108,7 +105,14 @@ function makeTarget(lat, lon, txtHeader) {
     c: Math.round(targetCol),
     result: txtHeader.NODATA_value
   }
+}
 
+async function writeFileToTmpDir(file, gridFile) {
+  return new Promise((resolve) => {
+    const writeStream = fse.createWriteStream(gridFile)
+    file.stream().pipe(writeStream)
+    writeStream.on('finish', resolve);
+  })
 }
 
 exports.getClimateclass = getClimateclass
